@@ -22,6 +22,7 @@ after_script:
   - git init
   - git config user.name "pandapm"
   - git config user.email "panda_m@126.com"
+  - git status
   - git add .
   - git commit -m "Update blogs"
   - git push --force --quiet "https://${GH_TOKEN}@${REF}" master:master
