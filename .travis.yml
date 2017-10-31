@@ -7,17 +7,19 @@ cache:
     - node_modules
 
 
-# # S: Build Lifecycle
-# install:
-#   - npm install
+# S: Build Lifecycle
+install:
+  - npm install
 
-# before_script:
+before_script:
+  - npm install -g hexo
 
 script:
-  - cd public
+  - hexo g
 
 after_script:
-  - ls -a
+  - cd public
+  - ls -l
   - git init
   - git remote add origin https://github.com/Pandapm/pandapm.github.io.git
   - git config user.name "pandapm"
