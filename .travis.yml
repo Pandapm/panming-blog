@@ -1,0 +1,35 @@
+language: node_js
+node_js: stable
+
+# Travis-CI Caching
+cache:
+  directories:
+    - node_modules
+
+
+# S: Build Lifecycle
+install:
+  - npm install
+
+before_script:
+  - npm install -g hexo
+
+script:
+  - hexo g
+
+after_script:
+  - cd public
+  - git init
+  - git config user.name "pandapm"
+  - git config user.email "panda_m@126.com"
+  - git add .
+  - git commit -m "Update blogs"
+  - git push --force --quiet "https://${GH_TOKEN}@${REF}" master:master
+# E: Build LifeCycle
+
+branches:
+  only:
+    - master
+env:
+ global:
+   - GH_REF: github.com/Pandapm/pandapm.github.io.git
