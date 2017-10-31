@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>H5设备方向及运动API介绍 | 椒图笔记</title>
+  
+  
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/zenburn.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+<div class="Shell">
+    <aside class='SideBar'>
+    <section class='avatar' style="background-image: url()">
+        <div class='av-pic' style="background-image: url(/assets/cg.png)">
+        </div>
+    </section>
+    <section class='menu'>
+        <div>椒图笔记</div>
+        
+        <ul>
+          
+            <a href="/" class="Btn">
+              <li>Home</li>
+            </a>  
+          
+            <a href="/archives/" class="Btn">
+              <li>Archive</li>
+            </a>  
+          
+            <a href="/tags/" class="Btn">
+              <li>Tags</li>
+            </a>  
+          
+            <a href="/categories/" class="Btn">
+              <li>Categories</li>
+            </a>  
+          
+            <a href="/about/" class="Btn">
+              <li>About</li>
+            </a>  
+          
+        </ul>
+    </section>
+    <section class="media">
+        
+    </section>
+</aside>
+
+    <div class="container">
+        <div data-pager-shell>
+            <div>
+  <article class='ContentView'>
+    <header class='PageTitle'>
+        <h1>H5设备方向及运动API介绍</h1>
+    </header>
+
+    <section>
+      <p>H5提供了一些与设备相关的API，其中<br>有两种事件负责处理设备的物理方向和运动信息，它们常见的信息源有陀螺仪、罗盘及加速计。<br>第一种是处理方向的事件：<code>deviceorientation</code>，它会在传感器检测到设备在<strong>方向上产生变化时</strong>触发。通过处理该事件传来的数据信息，使针对由于用户移动设备引起旋转和角度变化的行为进行设计。<br>第二种是处理运动的事件：<code>devicemotion</code>，它会在<strong>加速度发生改变时</strong>触发。与<code>deviceorientation</code>不同，<code>devicemotion</code>监听的是加速度的变化。传感器通常都具有监听<code>devicemotion</code>的能力，包括笔记本中用于保护移动存储设备的传感器。而能监听<code>deviceorientation</code>事件的传感器更多出现在移动设备中。</p>
+<a id="more"></a>
+<p>先说这俩事件的浏览器支持情况：<br><img src="http://img.blog.csdn.net/20170226220838321?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvUGFuZGFfbQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<h2 id="设备方向deviceorientation事件和DeviceOrientationEvent对象"><a href="#设备方向deviceorientation事件和DeviceOrientationEvent对象" class="headerlink" title="设备方向deviceorientation事件和DeviceOrientationEvent对象"></a>设备方向deviceorientation事件和DeviceOrientationEvent对象</h2><p>可以获取手机静止状态下的方向数据（手机所处的角度、方位和朝向等）。</p>
+<h3 id="设备坐标系"><a href="#设备坐标系" class="headerlink" title="设备坐标系"></a>设备坐标系</h3><p>设备坐标系由 x、y 和 z 值表示，一般以设备的中心为基准<br><img src="https://developers.google.cn/web/fundamentals/native-hardware/device-orientation/images/axes.png" alt="设备坐标系"></p>
+<ul>
+<li>x: 处于屏幕平面，正值表示向右。</li>
+<li>y: 处于屏幕平面，正值表示向上。</li>
+<li>z: 与屏幕或键盘垂直，正值表示向上。<h3 id="返回的数据"><a href="#返回的数据" class="headerlink" title="返回的数据"></a>返回的数据</h3>数据以欧拉角的形式返回，表示设备坐标系与地球坐标系 之间的差异度数，所以，通过deviceoriention事件获取到的值可以理解为：</li>
+<li><code>alpha</code>(z): 手机在水平面上旋转的角度，当设备的顶部指向正北时其值为 0°。 当设备逆时针旋转时值增加。【0 -360】</li>
+<li><code>beta</code>(x): 围绕x轴上下翻转的角度，当设备的顶部和底部与地球表面等距时其值为 0。【向上翻为负值，-180 - 180】</li>
+<li><code>gamma</code>(y): 围绕y轴左右翻转的角度，当设备的左侧和右侧与地球表面等距时 其值为 0。【向左翻为负值， -180 - 180】</li>
+</ul>
+<blockquote>
+<p>地球坐标系：<br>X: 表示东西方向（东为正值）。<br>Y: 表示南北方向（北为正值）。<br>Z: 表示上下方向，与地面垂直 （向上为正值）。</p>
+</blockquote>
+<h3 id="尝试"><a href="#尝试" class="headerlink" title="尝试"></a>尝试</h3><p>要监听 <code>deviceorientation</code>，首先检查浏览器是否支持这个事件，然后将一个事件handler附加到 window 对象以监听 deviceorientation 事件。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (<span class="built_in">window</span>.DeviceOrientationEvent) &#123;</div><div class="line">    <span class="built_in">window</span>.addEventListener(<span class="string">'deviceorientation'</span>, deviceOrientationHandler, <span class="literal">false</span>);</div><div class="line">    <span class="built_in">document</span>.getElementById(<span class="string">"doeSupported"</span>).innerText = <span class="string">""</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>事件一般返回三个常用的属性：alpha、 beta 和 gamma。<br>事件handler的一个例子：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleOrientation</span>(<span class="params">orientData</span>) </span>&#123; </div><div class="line">    <span class="keyword">var</span> alpha = orientData.alpha;</div><div class="line">    <span class="keyword">var</span> beta = orientData.beta;</div><div class="line">    <span class="keyword">var</span> gamma = orientData.gamma;</div><div class="line">    xxxx....</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>特别小的一个demo： demo.varpm.com</p>
+<p> 另外，这是返回的DeviceOrientationEvent对象的全部属性：<br> <img src="http://img.blog.csdn.net/20170301104719411?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvUGFuZGFfbQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"><br>其中，如果浏览器可以提供相对某坐标系的值得花，absolute为true。</p>
+<h2 id="设备动作devicemotion事件和DeviceMotionEvent对象"><a href="#设备动作devicemotion事件和DeviceMotionEvent对象" class="headerlink" title="设备动作devicemotion事件和DeviceMotionEvent对象"></a>设备动作devicemotion事件和DeviceMotionEvent对象</h2><p>设备动作事件的处理跟方向事件是一样的，<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">window</span>.addEventListener(<span class="string">"devicemotion"</span>, handleMotion, <span class="literal">true</span>);</div></pre></td></tr></table></figure></p>
+<p>设备动作事件按定期间隔检测，并及时返回有关设备在该时刻角速度和加速度的数据，一些设备没有硬件来排除重力的影响。<br>当然两个代码的不同之处除了事件名称还有做为参数传递给handler的DeviceMotionEvent对象所包含的四个常见的属性：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">DeviceMotionEvent.acceleration <span class="comment">//排除重力影响后的加速度</span></div><div class="line">DeviceMotionEvent.accelerationIncludingGravity <span class="comment">//不排除重力影响</span></div><div class="line">DeviceMotionEvent.rotationRate <span class="comment">//旋转速度</span></div><div class="line">DeviceMotionEvent.interval <span class="comment">//获取信息的时间间隔，单位是毫秒</span></div></pre></td></tr></table></figure></p>
+<p><code>DeviceMotionEvent</code>对象提供设备在位置和方向上的改变速度的相关信息。这些变化信息也是通过三个轴来体现的:<br>acceleration 和 accelerationIncludingGravity，都包含下面三个轴:</p>
+<ul>
+<li>x: 西向东</li>
+<li>y: 南向北</li>
+<li>z: 垂直地面</li>
+</ul>
+<p>rotationRate的情况有点不同：</p>
+<ul>
+<li>alpha: 设备沿着垂直屏幕的轴的旋转速率 (桌面设备相对于键盘)</li>
+<li>beta: 设备沿着屏幕左至右方向的轴的旋转速率(桌面设备相对于键盘)</li>
+<li>gamma: 设备沿着屏幕下至上方向的轴的旋转速率(桌面设备相对于键盘)<br>如果手机在桌面上，屏幕向上：<br><img src="http://img.blog.csdn.net/20170226222436538?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvUGFuZGFfbQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"> </li>
+</ul>
+<p>如果手机屏幕与地面垂直：<br><img src="http://img.blog.csdn.net/20170226222557219?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvUGFuZGFfbQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>一个摇一摇的demo：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> THRESHOLD = <span class="number">1000</span>;</div><div class="line"><span class="keyword">var</span> pre_x = pre_y = pre_z = cur_x = cur_y = cur_z = <span class="number">0</span>;</div><div class="line"><span class="keyword">var</span> preTime = <span class="number">0</span>;</div><div class="line"><span class="keyword">var</span> count = <span class="number">0</span>;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">shakeEventHandler</span>(<span class="params">event</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> acceleration =event.accelerationIncludingGravity;</div><div class="line">    cur_x = acceleration.x;</div><div class="line">    cur_y = acceleration.y;</div><div class="line">    cur_z = acceleration.z;</div><div class="line">    <span class="built_in">console</span>.log(cur_x,cur_y,cur_z);</div><div class="line">    <span class="keyword">if</span>(<span class="built_in">Math</span>.abs(cur_x-pre_x) &gt; <span class="number">30</span> || <span class="built_in">Math</span>.abs(cur_y-pre_y) &gt; <span class="number">30</span> || <span class="built_in">Math</span>.abs(cur_z-pre_z) &gt; <span class="number">30</span>) &#123;</div><div class="line">        <span class="comment">//简单的摇一摇触发代码</span></div><div class="line">        info_motion.innerHTML = ++count;</div><div class="line">    &#125;</div><div class="line">    pre_x = cur_x;</div><div class="line">    pre_y = cur_y;</div><div class="line">    pre_z = cur_z;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>附上一个完整可运行的demo：<br><a href="demo.varpm.com">demo.varpm.com</a></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"Content-Type"</span> <span class="attr">content</span>=<span class="string">"text/html; charset=UTF-8"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"MobileOptimized"</span> <span class="attr">content</span>=<span class="string">"320"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"initial-scale=1.0,user-scalable=no,minimum-scale=1.0, maximum-scale=1.0,width=device-width"</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Document<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></div><div class="line"><span class="css">    <span class="selector-class">.orientation</span> &#123;</span></div><div class="line"><span class="undefined">        width: 100px;</span></div><div class="line"><span class="undefined">        margin: 20px;</span></div><div class="line"><span class="undefined">        height: 100px;</span></div><div class="line"><span class="undefined">        display: inline-block;</span></div><div class="line"><span class="css">        <span class="selector-tag">background-color</span>: <span class="selector-id">#abcdef</span>;</span></div><div class="line"><span class="undefined">        position: relative;</span></div><div class="line"><span class="undefined">     &#125;</span></div><div class="line"><span class="undefined">    </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>这是一个小demo<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>z:<span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"info-alpha"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>x:<span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"info-beta"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span>&gt;</span>y:<span class="tag">&lt;<span class="name">span</span> <span class="attr">id</span>=<span class="string">"info-gamma"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"orientation orientation-x"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>这是一个X<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"orientation orientation-y"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>这是一个Y<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"orientation orientation-z"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">p</span>&gt;</span>这是一个Z<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">"info-motion"</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> &gt;</span><span class="undefined"></span></div><div class="line"><span class="javascript">    <span class="keyword">var</span> info_z = <span class="built_in">document</span>.getElementById(<span class="string">'info-alpha'</span>);</span></div><div class="line"><span class="javascript">    <span class="keyword">var</span> info_x = <span class="built_in">document</span>.getElementById(<span class="string">'info-beta'</span>);</span></div><div class="line"><span class="javascript">    <span class="keyword">var</span> info_y = <span class="built_in">document</span>.getElementById(<span class="string">'info-gamma'</span>);</span></div><div class="line"><span class="javascript">    <span class="keyword">var</span> info_motion = <span class="built_in">document</span>.getElementById(<span class="string">'info-motion'</span>);</span></div><div class="line"><span class="javascript">    <span class="keyword">var</span> orientation_x = <span class="built_in">document</span>.querySelector(<span class="string">'.orientation-x'</span>);</span></div><div class="line"><span class="javascript">    <span class="keyword">var</span> orientation_y = <span class="built_in">document</span>.querySelector(<span class="string">'.orientation-y'</span>);</span></div><div class="line"><span class="javascript">    <span class="keyword">var</span> orientation_z = <span class="built_in">document</span>.querySelector(<span class="string">'.orientation-z'</span>);</span></div><div class="line"><span class="javascript">    <span class="keyword">if</span>(<span class="built_in">window</span>.DeviceOrientationEvent) &#123;</span></div><div class="line"><span class="javascript">        <span class="built_in">window</span>.addEventListener(<span class="string">'deviceorientation'</span>, handleOrientation);</span></div><div class="line"><span class="undefined">    &#125;</span></div><div class="line"><span class="javascript">    <span class="keyword">else</span> &#123;</span></div><div class="line"><span class="javascript">        orientation.innerHTML = <span class="string">'当前浏览器不支持DeviceOrientationEvent'</span>;</span></div><div class="line"><span class="undefined">    &#125;</span></div><div class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">handleOrientation</span>(<span class="params">event</span>) </span>&#123;</span></div><div class="line"><span class="javascript">        <span class="built_in">console</span>.log(event);</span></div><div class="line"><span class="javascript">        <span class="keyword">var</span> x = event.beta;</span></div><div class="line"><span class="javascript">        <span class="keyword">var</span> y = event.gamma;</span></div><div class="line"><span class="javascript">        <span class="keyword">var</span> z = event.alpha;</span></div><div class="line"><span class="javascript">        info_z.innerHTML = <span class="built_in">parseInt</span>(z);</span></div><div class="line"><span class="javascript">        info_x.innerHTML = <span class="built_in">parseInt</span>(x);</span></div><div class="line"><span class="javascript">        info_y.innerHTML = <span class="built_in">parseInt</span>(y);</span></div><div class="line"><span class="javascript">        <span class="built_in">console</span>.log(<span class="string">'rotateY('</span> + y + <span class="number">180</span> + <span class="string">'deg)'</span>);</span></div><div class="line"><span class="javascript">        orientation_x.style.transform  = <span class="string">'rotateX('</span> + x + <span class="number">180</span> + <span class="string">'deg)'</span>;</span></div><div class="line"><span class="javascript">        orientation_y.style.transform  = <span class="string">'rotateY('</span> + y + <span class="number">180</span> + <span class="string">'deg)'</span>;</span></div><div class="line"><span class="javascript">        orientation_z.style.transform  = <span class="string">'rotateZ('</span> + z + <span class="string">'deg)'</span>;</span></div><div class="line"><span class="undefined">    &#125;</span></div><div class="line"><span class="javascript">    <span class="keyword">if</span> (<span class="built_in">window</span>.DeviceMotionEvent) &#123;</span></div><div class="line"><span class="javascript">        <span class="built_in">window</span>.addEventListener(<span class="string">'devicemotion'</span>, shakeEventHandler, <span class="literal">false</span>);</span></div><div class="line"><span class="javascript">    &#125; <span class="keyword">else</span> &#123;</span></div><div class="line"><span class="javascript">        alert(<span class="string">'当前浏览器不支持DeviceMotionEvent'</span>);</span></div><div class="line"><span class="undefined">    &#125;</span></div><div class="line"><span class="javascript">    <span class="keyword">var</span> THRESHOLD = <span class="number">1000</span>;</span></div><div class="line"><span class="javascript">    <span class="keyword">var</span> pre_x = pre_y = pre_z = cur_x = cur_y = cur_z = <span class="number">0</span>;</span></div><div class="line"><span class="javascript">    <span class="keyword">var</span> preTime = <span class="number">0</span>;</span></div><div class="line"><span class="javascript">    <span class="keyword">var</span> count = <span class="number">0</span>;</span></div><div class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">shakeEventHandler</span>(<span class="params">event</span>) </span>&#123;</span></div><div class="line"><span class="javascript">        <span class="keyword">var</span> acceleration =event.accelerationIncludingGravity;</span></div><div class="line"><span class="undefined">        cur_x = acceleration.x;</span></div><div class="line"><span class="undefined">        cur_y = acceleration.y;</span></div><div class="line"><span class="undefined">        cur_z = acceleration.z;</span></div><div class="line"><span class="javascript">        <span class="built_in">console</span>.log(cur_x,cur_y,cur_z);</span></div><div class="line"><span class="javascript">        <span class="keyword">if</span>(<span class="built_in">Math</span>.abs(cur_x-pre_x) &gt; <span class="number">30</span> || <span class="built_in">Math</span>.abs(cur_y-pre_y) &gt; <span class="number">30</span> || <span class="built_in">Math</span>.abs(cur_z-pre_z) &gt; <span class="number">30</span>) &#123;</span></div><div class="line"><span class="javascript">            <span class="comment">//简单的摇一摇触发代码</span></span></div><div class="line"><span class="undefined">            info_motion.innerHTML = ++count;</span></div><div class="line"><span class="undefined">        &#125;</span></div><div class="line"><span class="undefined">        pre_x = cur_x;</span></div><div class="line"><span class="undefined">        pre_y = cur_y;</span></div><div class="line"><span class="undefined">        pre_z = cur_z;</span></div><div class="line"><span class="undefined">    &#125;</span></div><div class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>* 文中图片来自于Google Developer和MDN</p>
+
+
+      
+
+    </section>
+    
+      <section class='ArticleMeta'>
+          <div>
+            发布于&nbsp;
+            <time datetime="2017-03-01T02:35:36.000Z" itemprop="datePublished">
+              2017-03-01
+            </time>
+          </div>
+          
+            <div>
+              tags: 
+  <li class="meta-text">
+  { <a href="/tags/H5/">H5</a> }
+  </li>
+
+  <li class="meta-text">
+  { <a href="/tags/移动设备/">移动设备</a> }
+  </li>
+
+
+            </div>
+          
+      </section>
+    
+    
+      <section>
+        <div id="disqus_thread"></div>
+        <script>
+          window.disqus_config = function () {
+            this.page.url = window.location.toString()
+            this.page.identifier = window.location.pathname
+          }
+          if (typeof DISQUS === 'undefined') {
+            (function() { // DON'T EDIT BELOW THIS LINE
+              var d = document, s = d.createElement('script');
+              s.src = 'https://.disqus.com/embed.js';
+              s.setAttribute('data-timestamp', +new Date());
+              (d.head || d.body).appendChild(s);
+            })();
+          } else {
+            DISQUS.reset({
+                reload: true,
+                config: window.disqus_config
+            })
+          }
+        </script>
+      </section>
+    
+</article>
+
+  
+</div>
+
+            <footer>
+    <div>© 2016 - PM </div>
+    <div>
+    Powered by Hexo
+    </div>
+</footer>
+
+        </div>
+    </div>
+</div>
+<script src="/js/pager/dist/singlepager.js"></script>
+<script>
+var sp = new Pager('data-pager-shell')
+
+</script>
+</body>
+</html>

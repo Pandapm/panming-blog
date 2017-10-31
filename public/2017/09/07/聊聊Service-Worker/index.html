@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>聊聊Service-Worker | 椒图笔记</title>
+  
+  
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/zenburn.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+<div class="Shell">
+    <aside class='SideBar'>
+    <section class='avatar' style="background-image: url()">
+        <div class='av-pic' style="background-image: url(/assets/cg.png)">
+        </div>
+    </section>
+    <section class='menu'>
+        <div>椒图笔记</div>
+        
+        <ul>
+          
+            <a href="/" class="Btn">
+              <li>Home</li>
+            </a>  
+          
+            <a href="/archives/" class="Btn">
+              <li>Archive</li>
+            </a>  
+          
+            <a href="/tags/" class="Btn">
+              <li>Tags</li>
+            </a>  
+          
+            <a href="/categories/" class="Btn">
+              <li>Categories</li>
+            </a>  
+          
+            <a href="/about/" class="Btn">
+              <li>About</li>
+            </a>  
+          
+        </ul>
+    </section>
+    <section class="media">
+        
+    </section>
+</aside>
+
+    <div class="container">
+        <div data-pager-shell>
+            <div>
+  <article class='ContentView'>
+    <header class='PageTitle'>
+        <h1>聊聊Service-Worker</h1>
+    </header>
+
+    <section>
+      <p>浏览器一般有三类 web Worker： </p>
+<ul>
+<li>Worker：专用的 worker，只能被创建它的 JS 访问，生命周期到创建它的页面关闭时结束。 </li>
+<li>SharedWorker：共享的 worker，可以被好几个 JS 访问，生命周期到关联的页面都关闭时结束。<br>ServiceWorker：一个特殊的 worker，生命周期与页面无关，关联页面未关闭时，它也可以退出，没有关联页面时，它也可以启动</li>
+</ul>
+<a id="more"></a>
+<h2 id="Web-Workers"><a href="#Web-Workers" class="headerlink" title="Web Workers"></a>Web Workers</h2><p>web worker: 为Web内容在后台线程中运行脚本提供了一种简单的方法，线程可以执行任务而不干扰用户界面,即：运行在后台的 JavaScript</p>
+<p>浏览器一般有三类 web Worker：</p>
+<ul>
+<li>Worker：专用的 worker，只能被创建它的 JS 访问，生命周期到创建它的页面关闭时结束。</li>
+<li>SharedWorker：共享的 worker，可以被好几个 JS 访问，生命周期到关联的页面都关闭时结束。<br>ServiceWorker：一个特殊的 worker，生命周期与页面无关，关联页面未关闭时，它也可以退出，没有关联页面时，它也可以启动，嗯总之就是一个神奇的worker</li>
+</ul>
+<p>对于workers来说，它运行的上下文不同于当前的window对象所在的上下文，在专用worker的情况下，DedicatedWorkerGlobalScope 对象代表了worker的上下文；在共享worker的情况下，SharedWorkerGlobalScope对象代表了共享worker的上下文。</p>
+<p>因此，在worker线程中运行的代码是有一些特殊情况的，比如，不能直接操作DOM以及使用window对象的一些默认属性和方法。但是在worker里，还是有很多window对象之下的东西是可以使用的，具体就要查阅文档了 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Functions_and_classes_available_to_workers" target="_blank" rel="external">https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Functions_and_classes_available_to_workers</a></p>
+<p>worker线程和主线程各自都使用postMessage()发送消息和和onmessage事件来响应对方发送的消息，传递的信息包含在 Message 这个事件的data属性内里，数据传递的是副本。</p>
+<p>当然一个 worker 可以生成另外的新的 worker，这些 worker 的宿主和它们父页面的宿主相同。</p>
+<h2 id="Service-Worker"><a href="#Service-Worker" class="headerlink" title="Service Worker"></a>Service Worker</h2><p>前两种worker主要是为了解决js执行耗时操作时影响UI响应的问题，而之所以说service worker是一种特殊的worker，是因为它想要把一个web APP变得更像native APP，可以支持离线访问。在service worker之前，离线缓存使用AppCache来做，从Firefox44起，当使用 AppCache 来提供离线页面支持时，会提示建议开发者使用 service workers 来实现离线页面。</p>
+<ul>
+<li>它是一种 JavaScript 工作线程，无法直接访问 DOM。 service worker通过响应 postMessage 接口发送的消息来与其控制的页面通信，页面可在必要时对 DOM 执行操作。</li>
+<li>它是一种可编程网络代理，能够控制并处理页面所发送的网络请求。</li>
+<li>它在不用时会被中止，并在下次有需要时重启，因此不能依赖于service worker的<br><code>onfetch事件</code> 和 <code>onmessage事件</code> 处理程序中的全局状态。如果存在需要持续保存并在重启后加以重用的信息，service worker可以访问 IndexedDB API以及FireFox OS专用的Data Store API等数据存储机制。</li>
+<li>service worker 广泛利用了 promise</li>
+<li>service Workers 要求要在必须在 HTTPS 下才能运行,为了便于本地开发，localhost 也被浏览器认为是安全源。</li>
+</ul>
+<h3 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h3><p>Service worker的生命周期完全独立于网页</p>
+<ol>
+<li>如果要使用service worker，首先要在js中进行注册，注册的动作会让浏览器在后台启动service worker的安装步骤</li>
+<li>service worker获取的第一个事件为 install。该事件在工作线程执行时立即触发，并且只能被每个service worker调用一次。 如果更改service worker的代码，则浏览器将其视为一个不同的service worker，并且它将获得自己的 install 事件。在安装的过程中，如果所有需要离线缓存的静态资源都已经成功缓存，那么service worker就安装完成进入激活步骤，如果有文件下载失败或缓存失败，service worker就无法完成安装过程。</li>
+<li>安装之后进入激活步骤，可以对旧的缓存进行管理</li>
+<li>激活之后，service worker开始施展身手，对它作用域内的所有页面进行控制，首次注册service worker的页面需要再次加载时才会受控制。激活之后，service worker将处于以下两种状态之一：终止或处理onfetch和onmessage事件，从页面发出网络请求或消息后将会出现后一种状态。</li>
+</ol>
+<p>如果 service worker 脚本版本处于 ACTIVATED 状态，功能事件处理完之后，service worker 线程会被终止，当再次有功能事件时，service worker 线程又会被启动，启动完成后 service worker 就可以立即进入 ACTIVATED 状态。</p>
+<p><img src="https://developers.google.cn/web/fundamentals/getting-started/primers/imgs/sw-lifecycle.png?hl=zh-cn" alt="生命周期"></p>
+<p>浏览器内核会管理三种 service worker 脚本版本：</p>
+<ul>
+<li>installing_version：处于 INSTALLING 状态的版本</li>
+<li>waiting_version：处于 INSTALLED 状态的版本</li>
+<li>active_version：处于 ACTIVATED 状态的版本</li>
+</ul>
+<p>installing_version 一般是在 service worker 线程启动后的版本，这是一个中间版本，在正确安装完成后会转入 waiting_version。</p>
+<p>waiting_version 一般在注册信息已被存储的版本状态，或者在再次打开 service worker 页面时，检查到 service worker 脚本版本的状态为 INSTALLED，也会进入此版本状态。waiting_version 的存在确保了当前 scope 下只有一个生效的 service worker。</p>
+<p>active_version 一般在 activate 事件处理完成后，就会处于此版本状态，同一 scope 下只有一个 active Service Worker。需要特别注意的是，当前页面已有 active worker 控制，刷新页面时，新版本 Waiting(Installed) 状态的 service worker 并不能转入 active 状态。</p>
+<p>Service worker 可以从 waiting_version 转入 active_version 的条件:</p>
+<ul>
+<li>当前 scope 下没有 active service worker 在运行。</li>
+<li>页面 JS 调用 self.skipWaiting 跳过 waiting 状态。</li>
+<li>用户关闭页面，释放了当前处于 active 状态的 service worker。</li>
+<li>浏览器周期性检测，发现 active service worker 处于 idle 状态，就会释放当前处于 active 状态的 service worker。</li>
+</ul>
+<p>其中，INSTALLED和ACTIVATED是稳定状态，可以对缓存之类的资源进行管理。</p>
+<h3 id="E-G"><a href="#E-G" class="headerlink" title="E.G."></a>E.G.</h3><h4 id="1-注册"><a href="#1-注册" class="headerlink" title="1. 注册"></a>1. 注册</h4><p>service worker需要在页面中进行注册才能启动安装步骤，注册时需要告诉在service worker中执行的代码的地址</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (<span class="string">'serviceWorker'</span> <span class="keyword">in</span> navigator) &#123;</div><div class="line">    <span class="built_in">window</span>.addEventListener(<span class="string">'load'</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">        navigator.serviceWorker.register(<span class="string">'/sw.js'</span>).then(<span class="function"><span class="keyword">function</span>(<span class="params">registration</span>) </span>&#123;</div><div class="line">            <span class="comment">// Registration was successful</span></div><div class="line">            <span class="built_in">console</span>.log(<span class="string">'ServiceWorker registration successful with scope: '</span>, registration.scope);</div><div class="line">        &#125;).catch(<span class="function"><span class="keyword">function</span>(<span class="params">err</span>) </span>&#123;</div><div class="line">            <span class="comment">// registration failed</span></div><div class="line">            <span class="built_in">console</span>.log(<span class="string">'ServiceWorker registration failed: '</span>, err);</div><div class="line">        &#125;);</div><div class="line">    &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>此代码用于检查 Service Worker API 是否可用，如果可用，则在页面加载后注册位于 /sw.js 的service worker。<br>每次页面加载无误时，即可调用 register()；浏览器将会判断service worker是否已注册并做出相应的处理。</p>
+<p>register() 方法的精妙之处在于service worker文件的位置。 本例中service worker文件位于根目录。 这意味着service worker的作用域将是整个来源。 换句话说，service worker可以接收此网域上所有的 fetch 事件。 如果在 /example/sw.js 处注册service worker文件，则service worker将只能看到URL以 /example/ 开头（即 /example/page1/、/example/page2/）的页面的 fetch 事件。</p>
+<p>chrome://inspect/#service-workers 可以看到目前运行中的<a href="chrome://inspect/#service-workers" target="_blank" rel="external">service worker</a></p>
+<p><a href="https://cdn.rawgit.com/jakearchibald/80368b84ac1ae8e229fc90b3fe826301/raw/ad55049bee9b11d47f1f7d19a73bf3306d156f43/" target="_blank" rel="external">这是Google的一个例子</a><br><a href="https://cdn.rawgit.com/jakearchibald/80368b84ac1ae8e229fc90b3fe826301/raw/ad55049bee9b11d47f1f7d19a73bf3306d156f43/" target="_blank" rel="external">https://cdn.rawgit.com/jakearchibald/80368b84ac1ae8e229fc90b3fe826301/raw/ad55049bee9b11d47f1f7d19a73bf3306d156f43/</a></p>
+<h4 id="2-安装"><a href="#2-安装" class="headerlink" title="2. 安装"></a>2. 安装</h4><p>启动注册后，需要为安装事件定义一个回调，决定哪些资源需要被缓存，在回调的内部，需要执行以下步骤：</p>
+<ol>
+<li>打开缓存</li>
+<li>缓存资源文件</li>
+<li>确定所有需要缓存的资源是否已经缓存完毕</li>
+</ol>
+<p>在 install 事件中也可以执行其他任务，甚至不设置 install 事件侦听器也可以。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> CACHE_NAME = <span class="string">'my-site-cache-v1'</span>;</div><div class="line"><span class="keyword">var</span> urlsToCache = [</div><div class="line">  <span class="string">'/'</span>,</div><div class="line">  <span class="string">'/styles/main.css'</span>,</div><div class="line">  <span class="string">'/script/main.js'</span></div><div class="line">];</div><div class="line"></div><div class="line">self.addEventListener(<span class="string">'install'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</div><div class="line">  <span class="comment">// Perform install steps</span></div><div class="line">  event.waitUntil(</div><div class="line">    caches.open(CACHE_NAME)</div><div class="line">      .then(<span class="function"><span class="keyword">function</span>(<span class="params">cache</span>) </span>&#123;</div><div class="line">        <span class="built_in">console</span>.log(<span class="string">'Opened cache'</span>);</div><div class="line">        <span class="keyword">return</span> cache.addAll(urlsToCache);</div><div class="line">      &#125;)</div><div class="line">  );</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="3-开始工作"><a href="#3-开始工作" class="headerlink" title="3.开始工作"></a>3.开始工作</h3><p>刷新当前页面后，service worker将开始接收 fetch 事件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">self.addEventListener(<span class="string">'fetch'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</div><div class="line">  event.respondWith(</div><div class="line">    caches.match(event.request)</div><div class="line">      .then(<span class="function"><span class="keyword">function</span>(<span class="params">response</span>) </span>&#123;</div><div class="line">        <span class="comment">// Cache hit - return response</span></div><div class="line">        <span class="keyword">if</span> (response) &#123;</div><div class="line">          <span class="keyword">return</span> response;</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">return</span> fetch(event.request);</div><div class="line">      &#125;</div><div class="line">    )</div><div class="line">  );</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>这里定义了 fetch 事件，并且在 event.respondWith() 中传入来自 caches.match() 的一个 promise。 此方法会检车这个请求，并从service worker创建的缓存中查找缓存的结果。</p>
+<p>如果发现有匹配的结果，则返回命中的值，否则调用 fetch 发出网络请求，并将从服务器请求到的数据作为结果返回。</p>
+<h3 id="4-更新service-worker"><a href="#4-更新service-worker" class="headerlink" title="4. 更新service worker"></a>4. 更新service worker</h3><ol>
+<li>更新您的service worker JavaScript 文件。用户访问更新了之后的站点时，浏览器会尝试在后台重新下载service worker的脚本文件。如果service worker文件与其当前所用文件存在字节差异，则将其视为“新service worker”。</li>
+<li>新service worker将会启动，且触发 install 事件。</li>
+<li>此时，旧service worker仍控制着当前页面，新service worker将进入 waiting 状态。</li>
+<li>当网站上当前打开的页面关闭时，旧service worker将会被终止，新service worker将会取得控制权。</li>
+<li>新service worker取得控制权后，触发其 activate 事件。(旧service worker退出时将触发 新service worker的Activate，新service worker将能够控制客户端。 可以执行在仍使用旧工作线程时无法执行的操作，如迁移数据库和清除缓存。)<br>出现在 activate 回调中的一个常见任务是缓存管理，但缓存管理通常不在这个新service worker的install回调里面做，因为它installed的时候旧的service worker还在工作中。</li>
+</ol>
+<p>比如说我们有一个名为 ‘my-site-cache-v1’ 的缓存，我们想要将该缓存拆分为一个页面缓存和一个博文缓存。这就意味着在安装步骤中我们创建了两个缓存：’pages-cache-v1’ 和 ‘blog-posts-cache-v1’，且在激活步骤中我们要删除旧的 ‘my-site-cache-v1’。</p>
+<p>具体做法为：遍历service worker中的所有缓存，并删除未在缓存白名单中定义的任何缓存。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">self.addEventListener(<span class="string">'activate'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</div><div class="line"></div><div class="line">  <span class="keyword">var</span> cacheWhitelist = [<span class="string">'pages-cache-v1'</span>, <span class="string">'blog-posts-cache-v1'</span>];</div><div class="line"></div><div class="line">  event.waitUntil(</div><div class="line">    caches.keys().then(<span class="function"><span class="keyword">function</span>(<span class="params">cacheNames</span>) </span>&#123;</div><div class="line">      <span class="keyword">return</span> <span class="built_in">Promise</span>.all(</div><div class="line">        cacheNames.map(<span class="function"><span class="keyword">function</span>(<span class="params">cacheName</span>) </span>&#123;</div><div class="line">          <span class="keyword">if</span> (cacheWhitelist.indexOf(cacheName) === <span class="number">-1</span>) &#123;</div><div class="line">            <span class="keyword">return</span> caches.delete(cacheName);</div><div class="line">          &#125;</div><div class="line">        &#125;)</div><div class="line">      );</div><div class="line">    &#125;)</div><div class="line">  );</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>等待阶段表示每次只能运行一个版本的service worker，但可以通过调用 self.skipWaiting() 用新的service worker把旧的那个逐出去，并在进入等待阶段时尽快激活自己（或立即激活，前提是已经处于等待阶段）。<br>skipWaiting() 在等待期间调用还是在之前调用并没有什么不同。 一般情况下是在 install 事件中调用它：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">self.addEventListener(<span class="string">'install'</span>, event =&gt; &#123;</div><div class="line">  self.skipWaiting();</div><div class="line"></div><div class="line">  event.waitUntil(</div><div class="line">    <span class="comment">// caching etc</span></div><div class="line">  );</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+
+
+      
+
+    </section>
+    
+      <section class='ArticleMeta'>
+          <div>
+            发布于&nbsp;
+            <time datetime="2017-09-07T07:15:40.000Z" itemprop="datePublished">
+              2017-09-07
+            </time>
+          </div>
+          
+            <div>
+              tags: 
+  <li class="meta-text">
+  { <a href="/tags/JavaScript/">JavaScript</a> }
+  </li>
+
+
+            </div>
+          
+      </section>
+    
+    
+      <section>
+        <div id="disqus_thread"></div>
+        <script>
+          window.disqus_config = function () {
+            this.page.url = window.location.toString()
+            this.page.identifier = window.location.pathname
+          }
+          if (typeof DISQUS === 'undefined') {
+            (function() { // DON'T EDIT BELOW THIS LINE
+              var d = document, s = d.createElement('script');
+              s.src = 'https://.disqus.com/embed.js';
+              s.setAttribute('data-timestamp', +new Date());
+              (d.head || d.body).appendChild(s);
+            })();
+          } else {
+            DISQUS.reset({
+                reload: true,
+                config: window.disqus_config
+            })
+          }
+        </script>
+      </section>
+    
+</article>
+
+  
+</div>
+
+            <footer>
+    <div>© 2016 - PM </div>
+    <div>
+    Powered by Hexo
+    </div>
+</footer>
+
+        </div>
+    </div>
+</div>
+<script src="/js/pager/dist/singlepager.js"></script>
+<script>
+var sp = new Pager('data-pager-shell')
+
+</script>
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>CSS选择器详解 | 椒图笔记</title>
+  
+  
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.10.0/styles/zenburn.min.css">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+<div class="Shell">
+    <aside class='SideBar'>
+    <section class='avatar' style="background-image: url()">
+        <div class='av-pic' style="background-image: url(/assets/cg.png)">
+        </div>
+    </section>
+    <section class='menu'>
+        <div>椒图笔记</div>
+        
+        <ul>
+          
+            <a href="/" class="Btn">
+              <li>Home</li>
+            </a>  
+          
+            <a href="/archives/" class="Btn">
+              <li>Archive</li>
+            </a>  
+          
+            <a href="/tags/" class="Btn">
+              <li>Tags</li>
+            </a>  
+          
+            <a href="/categories/" class="Btn">
+              <li>Categories</li>
+            </a>  
+          
+            <a href="/about/" class="Btn">
+              <li>About</li>
+            </a>  
+          
+        </ul>
+    </section>
+    <section class="media">
+        
+    </section>
+</aside>
+
+    <div class="container">
+        <div data-pager-shell>
+            <div>
+  <article class='ContentView'>
+    <header class='PageTitle'>
+        <h1>CSS选择器详解</h1>
+    </header>
+
+    <section>
+      <p>选择器是CSS的核心，从最初的CSS版本到现在的CSS3，选择器的发展变化使得定位页面内的某个元素的方式越来越简单和多样化。<br>需要查找某个选择器讲解的直接在目录里选择，由于伪类比较多而且这篇略长，伪类将重新单独一篇~</p>
+<a id="more"></a>
+<h2 id="元素选择器（W3C标准中又称类型选择器）"><a href="#元素选择器（W3C标准中又称类型选择器）" class="headerlink" title="元素选择器（W3C标准中又称类型选择器）"></a>元素选择器（W3C标准中又称类型选择器）</h2><p>选择文档树中的元素。<br>e.g.<br>HTML:<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">p</span>&gt;</span>this is an example<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>CSS:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span>&#123;</div><div class="line">	<span class="attribute">font-size</span>: <span class="number">50px</span>;</div><div class="line">	<span class="attribute">color</span>: red;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>效果：<br><img src="http://img.blog.csdn.net/20151122120300894" alt="这里写图片描述"></p>
+<h2 id="派生选择器"><a href="#派生选择器" class="headerlink" title="派生选择器"></a>派生选择器</h2><p>依据元素在其位置的上下文关系来选择</p>
+<h3 id="后代选择器"><a href="#后代选择器" class="headerlink" title="后代选择器"></a>后代选择器</h3><p>在后代选择器中，样式左边的选择器一端包括两个或多个用空格隔开的选择器，他们之间的空格是结合符。<br>e.g.<br>HTML：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">ul</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">li</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">div</span>&gt;</span>li的div<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">li</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">div</span>&gt;</span>li的div<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">li</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">div</span>&gt;</span>li的div的div<span class="tag">&lt;/<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">p</span>&gt;</span>li的p<span class="tag">&lt;/<span class="name">p</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span>&gt;</span><span class="tag">&lt;<span class="name">div</span>&gt;</span>li的a的div<span class="tag">&lt;/<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>CSS:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">li</span> <span class="selector-tag">div</span>&#123;</div><div class="line">	<span class="attribute">font-size</span>: <span class="number">50px</span>;</div><div class="line">	<span class="attribute">color</span>: red;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>效果：<br><img src="http://img.blog.csdn.net/20151122134630949" alt="这里写图片描述"></p>
+<p>e.g.2<br>HTML如上<br>CSS：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">li</span> <span class="selector-tag">a</span> <span class="selector-tag">div</span>&#123;</div><div class="line">	<span class="attribute">font-size</span>: <span class="number">50px</span>;</div><div class="line">	<span class="attribute">color</span>: red;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>效果：<br><img src="http://img.blog.csdn.net/20151122134808188" alt="这里写图片描述"></p>
+<p><strong>1、必须从左往右读选择器</strong><br><strong>2、后代选择器的意思是选择该元素所有的后代元素，该元素和后代元素之间的层次间隔可以是无限的。也就是说，只要是它的后代，无论隔了多少层，都会被选出来。</strong></p>
+<h3 id="子元素选择器"><a href="#子元素选择器" class="headerlink" title="子元素选择器"></a>子元素选择器</h3><p>子元素选择器<strong>只选择</strong>某元素的子元素。<br>e.g.<br>HTML:<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">ul</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">li</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">div</span>&gt;</span>li的div<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">li</span>&gt;</span></div><div class="line">			<span class="tag">&lt;<span class="name">div</span>&gt;</span>li的div<span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">		<span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">p</span>&gt;</span>li的p<span class="tag">&lt;/<span class="name">p</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span>&gt;</span><span class="tag">&lt;<span class="name">div</span>&gt;</span>li的a的div<span class="tag">&lt;/<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>CSS:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">li</span> &gt; <span class="selector-tag">div</span>&#123;</div><div class="line">	<span class="attribute">font-size</span>: <span class="number">50px</span>;</div><div class="line">	<span class="attribute">color</span>: red;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>效果：<br><img src="http://img.blog.csdn.net/20151122173401959" alt="这里写图片描述"><br><strong>其中的“&gt;”是子结合符，两边可以有空格</strong></p>
+<h3 id="相邻兄弟选择器"><a href="#相邻兄弟选择器" class="headerlink" title="相邻兄弟选择器"></a>相邻兄弟选择器</h3><p>选择紧邻在一个元素后的元素，他俩具有相同的父元素<br>e.g.<br>HTML：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">h1</span>&gt;</span>我是h1<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">p</span>&gt;</span>我是h1后面紧邻的p<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">p</span>&gt;</span>我和h1中间隔了一个p<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>CSS:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">h1</span> + <span class="selector-tag">p</span>&#123;</div><div class="line">	<span class="attribute">color</span>: blue;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>效果：<br><img src="http://img.blog.csdn.net/20151122174101274" alt="这里写图片描述"><br><strong>其中的“+”是相邻兄弟结合符，两边可以有空格</strong></p>
+<h3 id="一般兄弟选择器"><a href="#一般兄弟选择器" class="headerlink" title="一般兄弟选择器"></a>一般兄弟选择器</h3><p>选择在某元素后的所有和它有着同一个父元素的元素<br>e.g.<br>HTML:<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">h1</span>&gt;</span>我是h1<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">p</span>&gt;</span>我是h1后面紧邻的p<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">p</span>&gt;</span>我和h1中间隔了一个p<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">p</span>&gt;</span>我是div里的p<span class="tag">&lt;/<span class="name">p</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">p</span>&gt;</span>我是最后一个p<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>CSS:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">h1</span> ~ <span class="selector-tag">p</span>&#123;</div><div class="line">	<span class="attribute">color</span>: blue;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>效果：<br><img src="http://img.blog.csdn.net/20151122174653408" alt="这里写图片描述"><br><strong>其中的“~”是一般兄弟结合符</strong></p>
+<h2 id="类选择器"><a href="#类选择器" class="headerlink" title="类选择器"></a>类选择器</h2><p>语法：</p>
+<p>.类名{<br>    styles<br>}<br>或<br><em>.类名{ styles }<br>**通配符</em>可以省略<strong><br>可以结合元素选择器使用<br>匹配class属性中包含指定值的</strong>所有元素**<br>e.g.<br>HTML：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">h1</span> <span class="attr">class</span>=<span class="string">"cls1"</span>&gt;</span>我是h1<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">p</span>  <span class="attr">class</span>=<span class="string">"cls1"</span>&gt;</span>我是h1后面紧邻的p<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">p</span>&gt;</span>我和h1中间隔了一个p<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">p</span>  <span class="attr">class</span>=<span class="string">"cls1"</span>&gt;</span>我是div里的p<span class="tag">&lt;/<span class="name">p</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">p</span>&gt;</span>我是最后一个p<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>CSS :<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.cls1</span>&#123;</div><div class="line">	<span class="attribute">color</span>: blue;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>效果：<br><img src="http://img.blog.csdn.net/20151122180151511" alt="这里写图片描述"></p>
+<p> e.g.2<br>CSS：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span><span class="selector-class">.cls1</span>&#123;</div><div class="line">	<span class="attribute">color</span>: blue;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>效果：<br><img src="http://img.blog.csdn.net/20151122180309260" alt="这里写图片描述"></p>
+<h3 id="多类选择器"><a href="#多类选择器" class="headerlink" title="多类选择器"></a>多类选择器</h3><p><strong>仅</strong>可以选择<strong>同时</strong>包含这些类名的元素，类名的顺序不变<br>e.g.<br>HTML：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">h1</span> <span class="attr">class</span>=<span class="string">"cls2 cls1"</span>&gt;</span>我是h1<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">p</span>  <span class="attr">class</span>=<span class="string">"cls1"</span>&gt;</span>我是h1后面紧邻的p<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">p</span>&gt;</span>我和h1中间隔了一个p<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">p</span>  <span class="attr">class</span>=<span class="string">"cls1 cls2"</span>&gt;</span>我是div里的p<span class="tag">&lt;/<span class="name">p</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">p</span>&gt;</span>我是最后一个p<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>CSS:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.cls1</span><span class="selector-class">.cls2</span>&#123;</div><div class="line">	<span class="attribute">color</span>: blue;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>效果：<br><img src="http://img.blog.csdn.net/20151122180652703" alt="这里写图片描述"></p>
+<p><strong>重要：IE7之前版本的IE浏览器不能正确处理多类选择器</strong></p>
+<h2 id="ID选择器"><a href="#ID选择器" class="headerlink" title="ID选择器"></a>ID选择器</h2><p>语法：<br><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">#ID名&#123; styles &#125;</div><div class="line">或</div><div class="line">*#ID名&#123; styles &#125;  *通配符选择器可省略</div></pre></td></tr></table></figure></p>
+<p>e.g.<br>HTML：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">h1</span> &gt;</span>我是h1<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">"id1"</span> &gt;</span>我有id1<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">p</span>&gt;</span>我和h1中间隔了一个p<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">p</span>&gt;</span>我是div里的p<span class="tag">&lt;/<span class="name">p</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">p</span>&gt;</span>我是最后一个p<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>CSS:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#id1</span>&#123;</div><div class="line">	<span class="attribute">color</span>: blue;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>效果：<br><img src="http://img.blog.csdn.net/20151122181321273" alt="这里写图片描述"><br>类选择器与ID选择器的区别：</p>
+<ul>
+<li>一个ID在一个HTML文档中只能使用一次</li>
+<li>ID选择器不能结合使用，因为ID的属性值中不允许有用空格分隔的词列表</li>
+<li><p>ID可以包含更多的含义(如下)</p>
+<blockquote>
+<p>类似于类，可以独立于元素来选择 ID。有些情况下，您知道文档中会出现某个特定 ID 值，但是并不知道它会出现在哪个元素上，所以您想声明独立的 ID 选择器。例如，您可能知道在一个给定的文档中会有一个 ID 值为 mostImportant 的元素。您不知道这个最重要的东西是一个段落、一个短语、一个列表项还是一个小节标题。您只知道每个文档都会有这么一个最重要的内容，它可能在任何元素中，而且只能出现一个。</p>
+</blockquote>
+<p><strong>类与ID选择器是否区分大小写取决于文档的语言，在HTML和XHTML中，ID和类被定义为<em>区分</em>大小写</strong></p>
+</li>
+</ul>
+<h2 id="属性选择器"><a href="#属性选择器" class="headerlink" title="属性选择器"></a>属性选择器</h2><p>根据元素的属性及其属性值来选择元素</p>
+<h3 id="简单属性选择器"><a href="#简单属性选择器" class="headerlink" title="简单属性选择器"></a>简单属性选择器</h3><p>语法：<br>*[属性名] { 样式 }<br>e.g.<br>HTML：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">h1</span>&gt;</span>我是h1<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span> <span class="attr">title</span>=<span class="string">"tt1"</span>&gt;</span>我有title tt1<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">p</span> <span class="attr">title</span>=<span class="string">"tt1"</span>&gt;</span>我也有title tt1<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>CSS:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-attr">[title]</span>&#123;</div><div class="line">	<span class="attribute">color</span>: blue;</div><div class="line">	<span class="comment">/*选择包含有title这个属性的所有元素*/</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>效果：<br><img src="http://img.blog.csdn.net/20151122182401198" alt="这里写图片描述"><br>e.g.2<br>HTML：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">h1</span>&gt;</span>我是h1<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span> <span class="attr">title</span>=<span class="string">"tt1"</span>&gt;</span>我是a有href<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">p</span> <span class="attr">title</span>=<span class="string">"tt1"</span>&gt;</span>我也有title tt1<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">a</span>&gt;</span>我是a没有href<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>CSS:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">a</span><span class="selector-attr">[href]</span>&#123;</div><div class="line">		<span class="attribute">color</span>: blue;</div><div class="line">&#125;</div><div class="line"><span class="comment">/*选择有href的a元素*/</span></div></pre></td></tr></table></figure></p>
+<p>效果：<br><img src="http://img.blog.csdn.net/20151122182715121" alt="这里写图片描述"><br>e.g.3<br>HTML：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">h1</span>&gt;</span>我是h1<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span> <span class="attr">title</span>=<span class="string">"tt1"</span>&gt;</span>我是a有href有title<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">p</span> <span class="attr">title</span>=<span class="string">"tt1"</span>&gt;</span>我也有title tt1<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">""</span>&gt;</span>我是a有href没title<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>CSS:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">a</span><span class="selector-attr">[href]</span><span class="selector-attr">[title]</span>&#123;</div><div class="line">	<span class="attribute">color</span>: red;</div><div class="line">&#125;</div><div class="line"><span class="comment">/*选择同时有href和title属性的a元素*/</span></div></pre></td></tr></table></figure></p>
+<p>效果：<br><img src="http://img.blog.csdn.net/20151122183049001" alt="这里写图片描述"></p>
+<h3 id="根据具体属性值选择"><a href="#根据具体属性值选择" class="headerlink" title="根据具体属性值选择"></a>根据具体属性值选择</h3><p>e.g.<br>HTML<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">h1</span>&gt;</span>我是h1<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#"</span> <span class="attr">title</span>=<span class="string">"tt1"</span>&gt;</span>我是a有href有title=tt1<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">p</span> <span class="attr">title</span>=<span class="string">"tt1"</span>&gt;</span>我不是a,也有title tt1<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">a</span> &gt;</span>我是a没title<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>CSS:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">a</span><span class="selector-attr">[title='tt1']</span>&#123;</div><div class="line">	<span class="attribute">color</span>: red;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>效果：<br><img src="http://img.blog.csdn.net/20151122184108778" alt="这里写图片描述"></p>
+<p><strong>p.s.具体属性值这种格式要求属性值<em>必须完全匹配</em>才能选出来</strong><br>e.g.<br>HTML：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"class1 class2"</span>&gt;</span>我的属性是 class="class1 class2"<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"class2 class1"</span>&gt;</span>我的属性是 class="class2 class1"<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"class1"</span>&gt;</span>我的属性是 class="class1"<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>CSS:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span><span class="selector-attr">[class='class1 class2']</span>&#123;</div><div class="line">	<span class="attribute">color</span>: pink;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>效果：<br><img src="http://img.blog.csdn.net/20151122201527087" alt="这里写图片描述"></p>
+<h3 id="根据多个属性值选择"><a href="#根据多个属性值选择" class="headerlink" title="根据多个属性值选择"></a>根据多个属性值选择</h3><p>也就是把多个属性-值选择器链接在一起使用<br>e.g.<br>HTML:<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"123"</span> <span class="attr">title</span>=<span class="string">"a1"</span>&gt;</span>我是a， href="123" title="a1"<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">br</span>/&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"1234"</span> <span class="attr">title</span>=<span class="string">"a1"</span>&gt;</span>我是a， href="1234" title="a1"<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>CSS:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">a</span><span class="selector-attr">[href='123']</span><span class="selector-attr">[title='a1']</span>&#123;</div><div class="line">	<span class="attribute">color</span>: pink;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>效果：<br><img src="http://img.blog.csdn.net/20151122201907079" alt="这里写图片描述"></p>
+<h3 id="根据部分属性值选择"><a href="#根据部分属性值选择" class="headerlink" title="根据部分属性值选择"></a>根据部分属性值选择</h3><p>若需要根据属性值的词列表中的<strong>某个词</strong>（是完整的一个词）进行选择，则需使用“~”<br>e.g.<br>HTML ：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"class1 class2"</span>&gt;</span>我的属性是 class="class1 class2"<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"class2 class1"</span>&gt;</span>我的属性是 class="class2 class1"<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"class1"</span>&gt;</span>我的属性是 class="class1"<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>CSS:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span><span class="selector-attr">[class~='class1']</span>&#123;</div><div class="line">	<span class="attribute">color</span>: pink;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>效果：<br><img src="http://img.blog.csdn.net/20151122202859839" alt="这里写图片描述"></p>
+<p>子串匹配属性选择器</p>
+<ul>
+<li>[attr^=’value’]：attr属性值以”value”开头的所有元素（必须是整个属性值列表里第一个词的开头）<br>e.g.<br>html： <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;body&gt;</div><div class="line">	&lt;p class=&quot;class1 class2&quot;&gt;我的属性是 class=&quot;class1 class2&quot;&lt;/p&gt;</div><div class="line">	&lt;p class=&quot;po class2 class1&quot;&gt;我的属性是 class=&quot;class2 class1&quot;&lt;/p&gt;</div><div class="line">	&lt;p class=&quot;class1&quot;&gt;我的属性是 class=&quot;class1&quot;&lt;/p&gt;</div><div class="line">&lt;/body&gt;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>CSS:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span><span class="selector-attr">[class^='cla']</span>&#123;</div><div class="line">	<span class="attribute">color</span>: pink;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>效果：<br><img src="http://img.blog.csdn.net/20151122203902365" alt="这里写图片描述"></p>
+<ul>
+<li>[attr$=’value’]：attr属性值以”value”结尾的所有元素（必须是整个属性值列表里最后一个词的结尾）</li>
+<li><p>[attr*=’value’]：attr属性值中包含子串”value”的所有元素</p>
+<h3 id="特定属性选择器"><a href="#特定属性选择器" class="headerlink" title="特定属性选择器"></a>特定属性选择器</h3><p>常见的用途是匹配语言值，以方便为不同的语言的文字添加样式<br>（以下示例中的语言值是瞎编的）<br>e.g.<br>HTML：</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"> &lt;body&gt;</div><div class="line">	&lt;p lang=&quot;en-ut&quot;&gt;我的lang=&quot;en-ut&quot;&lt;/p&gt;</div><div class="line">	&lt;p lang=&quot;en ut&quot;&gt;我的lang=&quot;en ut&quot;&lt;/p&gt;</div><div class="line">	&lt;p lang=&quot;ent-ut&quot;&gt;我的lang=&quot;ent-ut&quot;&lt;/p&gt;</div><div class="line">	&lt;p lang=&quot;en-fra&quot;&gt;我的lang=&quot;en-fra&quot;&lt;/p&gt;</div><div class="line">&lt;/body&gt;</div></pre></td></tr></table></figure>
+<p>CSS:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span><span class="selector-attr">[lang|='en']</span>&#123;</div><div class="line">	<span class="attribute">color</span>: pink;</div><div class="line">&#125;</div><div class="line"><span class="comment">/*选择带有以“en”开头的lang属性的元素*/</span></div><div class="line"><span class="comment">/*[attr|=value]  value必须是整个单词*/</span></div></pre></td></tr></table></figure></p>
+<p>效果：<br><img src="http://img.blog.csdn.net/20151122204532045" alt="这里写图片描述"></p>
+<p>##伪元素<br>语法：</p>
+<blockquote>
+<p>选择器:伪元素 { 样式 }</p>
+</blockquote>
+<p>为了与伪类区分，常使用下面的形式：</p>
+<blockquote>
+<p>选择器::伪元素 { 样式 }</p>
+<h3 id="first-line伪元素"><a href="#first-line伪元素" class="headerlink" title="::first-line伪元素"></a>::first-line伪元素</h3><p>用于向文本的首行设置样式<br>e.g.<br>HTML：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;body&gt;</div><div class="line">	&lt;p&gt;</div><div class="line">		我是第一行&lt;br/&gt;</div><div class="line">		我是第二行&lt;br/&gt;</div><div class="line">		我是第三行&lt;br/&gt;</div><div class="line">	&lt;/p&gt;</div><div class="line">&lt;/body&gt;</div></pre></td></tr></table></figure></p>
+</blockquote>
+<p>CSS:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">::first-line</span>&#123;</div><div class="line">	<span class="attribute">color</span>: pink;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>效果：<img src="http://img.blog.csdn.net/20151122205655787" alt="这里写图片描述"><br><strong>可用于::first-line的属性：</strong></p>
+<blockquote>
+<ul>
+<li>font</li>
+<li>color</li>
+<li>background</li>
+<li>word-spacing</li>
+<li>letter-spacing</li>
+<li>text-decoration</li>
+<li>vertical-align</li>
+<li>text-transform</li>
+<li>line-height</li>
+<li>clear</li>
+</ul>
+</blockquote>
+<p><strong>::first-line伪元素只能用于块级元素</strong></p>
+<h3 id="first-letter伪元素"><a href="#first-letter伪元素" class="headerlink" title="::first-letter伪元素"></a>::first-letter伪元素</h3><p>用于向文本首字母添加样式<br>e.g.<br>HTML<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;body&gt;</div><div class="line">	&lt;p&gt;</div><div class="line">		我是第一行&lt;br/&gt;</div><div class="line">		我是第二行&lt;br/&gt;</div><div class="line">		我是第三行&lt;br/&gt;</div><div class="line">	&lt;/p&gt;</div><div class="line">&lt;/body&gt;</div></pre></td></tr></table></figure></p>
+<p>CSS:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">::first-letter</span>&#123;</div><div class="line">	<span class="attribute">color</span>: pink;</div><div class="line">	<span class="attribute">font-size</span>: <span class="number">30px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>效果：<br><img src="http://img.blog.csdn.net/20151122210401311" alt="这里写图片描述"><br><strong>可用于::first-letter的属性：</strong></p>
+<blockquote>
+<ul>
+<li>font</li>
+<li>color</li>
+<li>background</li>
+<li>margin</li>
+<li>padding</li>
+<li>border</li>
+<li>text-decoration</li>
+<li>vertical-align(仅当float为none时)</li>
+<li>text-transform</li>
+<li>line-height</li>
+<li>float</li>
+<li>clear</li>
+</ul>
+</blockquote>
+<p><strong>只能用于块级元素</strong></p>
+<h3 id="before伪元素"><a href="#before伪元素" class="headerlink" title="::before伪元素"></a>::before伪元素</h3><p>可使用content属性在元素的内容前插入新内容<br>e.g.<br>HTML:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;body&gt;</div><div class="line">	&lt;p&gt;</div><div class="line">		我是第一行&lt;br/&gt;</div><div class="line">		我是第二行&lt;br/&gt;</div><div class="line">		我是第三行&lt;br/&gt;</div><div class="line">	&lt;/p&gt;</div><div class="line">&lt;/body&gt;</div></pre></td></tr></table></figure></p>
+<p>CSS:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">::before</span>&#123;</div><div class="line">	<span class="attribute">content</span>: <span class="string">"|"</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>效果：<br><img src="http://img.blog.csdn.net/20151122211258795" alt="这里写图片描述"></p>
+<h3 id="after伪元素"><a href="#after伪元素" class="headerlink" title="::after伪元素"></a>::after伪元素</h3><p>用于在元素内容后插入新内容，使用方法与::before相同。</p>
+<h3 id="selection伪元素"><a href="#selection伪元素" class="headerlink" title="::selection伪元素"></a>::selection伪元素</h3><p>用来匹配突出显示的文本(用鼠标选择文本时的文本)。浏览器默认情况下，用鼠标选择网页文本是以“深蓝的背景，白色的字体”显示的。火狐浏览器需要加前缀<br>e.g.<br>HTML:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;body&gt;</div><div class="line">	&lt;p&gt;“::selection”伪元素是用来匹配突出显示的文本。浏览器默认情况下，选择网站文本是深蓝的背景，白色的字体，</div><div class="line">有的设计要求不使用上图那种浏览器默认的突出文本效果，需要一个与众不同的效果，此时“::selection”伪元素就非常的实用。不过在Firefox浏览器还需要添加前缀。</div><div class="line">	&lt;/p&gt;</div><div class="line">&lt;/body&gt;</div></pre></td></tr></table></figure></p>
+<p>CSS:<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="selector-pseudo">::selection</span>&#123;</div><div class="line">  <span class="attribute">background</span>: orange;</div><div class="line">  <span class="attribute">color</span>: white;</div><div class="line">&#125;</div><div class="line"><span class="selector-pseudo">::-moz-selection</span>&#123;</div><div class="line">  <span class="attribute">background</span>: orange;</div><div class="line">  <span class="attribute">color</span>: white;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>效果：<br><img src="http://img.blog.csdn.net/20151122211719305" alt="这里写图片描述"></p>
+
+
+      
+
+    </section>
+    
+      <section class='ArticleMeta'>
+          <div>
+            发布于&nbsp;
+            <time datetime="2015-11-22T13:18:46.000Z" itemprop="datePublished">
+              2015-11-22
+            </time>
+          </div>
+          
+            <div>
+              tags: 
+  <li class="meta-text">
+  { <a href="/tags/CSS/">CSS</a> }
+  </li>
+
+
+            </div>
+          
+      </section>
+    
+    
+      <section>
+        <div id="disqus_thread"></div>
+        <script>
+          window.disqus_config = function () {
+            this.page.url = window.location.toString()
+            this.page.identifier = window.location.pathname
+          }
+          if (typeof DISQUS === 'undefined') {
+            (function() { // DON'T EDIT BELOW THIS LINE
+              var d = document, s = d.createElement('script');
+              s.src = 'https://.disqus.com/embed.js';
+              s.setAttribute('data-timestamp', +new Date());
+              (d.head || d.body).appendChild(s);
+            })();
+          } else {
+            DISQUS.reset({
+                reload: true,
+                config: window.disqus_config
+            })
+          }
+        </script>
+      </section>
+    
+</article>
+
+  
+</div>
+
+            <footer>
+    <div>© 2016 - PM </div>
+    <div>
+    Powered by Hexo
+    </div>
+</footer>
+
+        </div>
+    </div>
+</div>
+<script src="/js/pager/dist/singlepager.js"></script>
+<script>
+var sp = new Pager('data-pager-shell')
+
+</script>
+</body>
+</html>

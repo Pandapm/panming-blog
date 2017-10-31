@@ -1,0 +1,139 @@
+/* .highlight {
+    display: block;
+    background: white;
+    padding: 0.5em;
+    color: #333333;
+    overflow-x: auto
+}
+
+.comment,
+.meta {
+    color: #969896
+}
+
+.string,
+.variable,
+.template-variable,
+.strong,
+.emphasis,
+.quote {
+    color: #df5000
+}
+
+.keyword,
+.selector-tag,
+.type {
+    color: #a71d5d
+}
+
+.literal,
+.symbol,
+.bullet,
+.attribute {
+    color: #0086b3
+}
+
+.section,
+.name {
+    color: #63a35c
+}
+
+.tag {
+    color: #333333
+}
+
+.title,
+.attr,
+.selector-id,
+.selector-class,
+.selector-attr,
+.selector-pseudo {
+    color: #795da3
+}
+
+.addition {
+    color: #55a532;
+    background-color: #eaffea
+}
+
+.deletion {
+    color: #bd2c00;
+    background-color: #ffecec
+}
+
+.link {
+    text-decoration: underline
+} */
+
+.highlight {
+    display: block;
+    overflow-x: auto;
+    padding: 0.5em;
+    background: #fdf6e3;
+    color: #657b83
+}
+
+.comment,
+.quote {
+    color: #93a1a1
+}
+
+.keyword,
+.selector-tag,
+.addition {
+    color: #859900
+}
+
+.number,
+.string,
+.meta .meta-string,
+.literal,
+.doctag,
+.regexp {
+    color: #2aa198
+}
+
+.title,
+.section,
+.name,
+.selector-id,
+.selector-class {
+    color: #268bd2
+}
+
+.attribute,
+.attr,
+.variable,
+.template-variable,
+.class .title,
+.type {
+    color: #b58900
+}
+
+.symbol,
+.bullet,
+.subst,
+.meta,
+.meta .keyword,
+.selector-attr,
+.selector-pseudo,
+.link {
+    color: #cb4b16
+}
+
+.built_in,
+.deletion {
+    color: #dc322f
+}
+
+.formula {
+    background: #eee8d5
+}
+
+.emphasis {
+    font-style: italic
+}
+
+.strong {
+    font-weight: bold
+}
