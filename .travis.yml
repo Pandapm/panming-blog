@@ -8,16 +8,17 @@ cache:
 
 
 # S: Build Lifecycle
-# install:
-#   - npm install
+install:
+  - npm install
 
 # before_script:
+#   - npm install
 
 script:
-#   - hexo clean
-#   - hexo g
+  - hexo clean
+  - hexo g
 
-# after_script:
+after_script:
   - cd public
   - ls -l
   - git init
