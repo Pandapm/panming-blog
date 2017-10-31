@@ -19,13 +19,16 @@ script:
 
 after_script:
   - cd public
+  - ll
   - git init
+  - git remote add origin https://github.com/Pandapm/pandapm.github.io.git
   - git config user.name "pandapm"
   - git config user.email "panda_m@126.com"
   - git status
   - git add .
+  - git status 
   - git commit -m "Update blogs"
-  - git push --force --quiet "https://${GH_TOKEN}@${REF}" master:master
+  - git push --force "https://${GH_TOKEN}@${REF}" master
 # E: Build LifeCycle
 
 branches:

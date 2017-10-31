@@ -1,0 +1,1 @@
+https://travis-ci.org/Pandapm/panming-blog.svg?branch=master
