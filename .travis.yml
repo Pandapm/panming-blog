@@ -32,4 +32,4 @@ branches:
     - master
 env:
  global:
-   - GH_REF: github.com/Pandapm/pandapm.github.io.git
+   - REF: github.com/Pandapm/pandapm.github.io.git
