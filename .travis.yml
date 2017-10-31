@@ -9,10 +9,9 @@ cache:
 
 # S: Build Lifecycle
 install:
-  - npm install -g hexo
-
-before_script:
   - npm install
+
+# before_script:
 
 script:
   - hexo clean
