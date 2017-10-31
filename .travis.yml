@@ -7,24 +7,21 @@ cache:
     - node_modules
 
 
-# S: Build Lifecycle
-install:
-  - npm install
+# # S: Build Lifecycle
+# install:
+#   - npm install
 
-before_script:
-  - npm install -g hexo
+# before_script:
 
 script:
-  - hexo g
+  - cd public
 
 after_script:
-  - cd public
-  - ll
+  - ls -a
   - git init
   - git remote add origin https://github.com/Pandapm/pandapm.github.io.git
   - git config user.name "pandapm"
   - git config user.email "panda_m@126.com"
-  - git status
   - git add .
   - git status 
   - git commit -m "Update blogs"
