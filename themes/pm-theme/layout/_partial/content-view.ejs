@@ -1,6 +1,13 @@
 <article class='ContentView'>
     <header class='PageTitle'>
         <h1><%= post.title %></h1>
+        <% if (!isPage) { %>
+          <% if (post.tags && post.tags.length){ %>
+            <div class="TitleTags">
+              tags: <%- partial('tag-list', { className: 'meta-text', tags: post.tags }) %>
+            </div>
+          <% } %>
+        <% } %>
     </header>
 
     <section>
