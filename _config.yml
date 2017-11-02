@@ -5,9 +5,9 @@
 # Site
 title: 「 椒图笔记 」
 subtitle:
-description: 前端, 技术博客, 潘铭, 椒图
+description: 前端, 博客, 笔记
 author: PM
-language: 
+language:
 timezone:
 
 # URL
@@ -72,7 +72,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: pm-theme
+theme: next
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
